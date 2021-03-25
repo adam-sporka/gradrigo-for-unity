@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour
 			m_Score.text = "";
 			m_Logo.SetActive(true);
 			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("welcome");
+			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_welcome");
 			Debug.Log(m_nLastMusicVoice);
 		}
 
@@ -120,14 +120,14 @@ public class GameController : MonoBehaviour
 		{
 			m_Message.text = "Game Over – Press SPACE to Play Again";
 			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("game_over");
+			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_game_over");
 		}
 
 		if (screen == Screens.VICTORY)
 		{
 			m_Message.text = "Congrats! – Press SPACE to Play Again";
 			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("victory");
+			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_victory");
 		}
 	}
 
@@ -159,11 +159,9 @@ public class GameController : MonoBehaviour
 	{
 		m_Gradrigo.ParseString(@"
 
-// DEMONOID SOUND EFFECTS
-
 wall_bounce = dur(~0.15) {
 	fadeout(~0.15)
-	%d = ? * 10 + 40
+	%d = 40
 	@loop
 	noise17e(%d)
 }
@@ -213,7 +211,7 @@ note:%d:%w = {
 	}
 }
 
-welcome = {
+music_welcome = {
 	note:
 		6: A4 
 	vol(.75) 
@@ -226,7 +224,7 @@ welcome = {
 		4: D4
 }
 
-victory = {
+music_victory = {
 	note:
 		6: A4 
 	vol(.75) 
@@ -239,7 +237,7 @@ victory = {
 		4: A4
 }
 
-game_over = {
+music_game_over = {
 	note:
 		6: A4 
 	vol(.75) 
