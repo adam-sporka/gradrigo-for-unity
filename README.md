@@ -7,6 +7,8 @@ It is also possible to attach multiple instances of Gradrigo to several game obj
 and let Unity apply the 3D sound effects on those but that's not demonstrated
 in this example.
 
+A public repo of Gradrigo itself is in preparation.
+
 # Links
 
 Author's home page:
