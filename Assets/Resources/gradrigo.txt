@@ -1,0 +1,91 @@
+
+wall_bounce = dur(~0.15) {
+	fadeout(~0.15)
+	@loop
+	noise17e(40)
+}
+
+bar_bounce:%d = dur(~.2) {
+	fadeout(~.2)
+	%r = #(%d + 72)
+	@loop
+	dur(~0.04) {
+		fadeout(~0.04)
+		@loop
+		sqr(%r)
+	}
+	dur(~0.04) {}
+}
+
+paddle_bounce:%d = dur(~.2) {
+	fadeout(~.2)
+	%a = #60 - %d
+	@loop
+	sqr(%a)
+	%a = %a - 0.002
+}
+
+tick:%d group(music) maxinst(1, 1) = dur(~.05) {
+	@loop
+	sqr(#%d)
+}
+
+note:%d:%w = {
+	%d = !(%d * .25)
+	dur(%d) {
+		fadeout(%d)
+		@loop
+		sqr(#%w)
+	}
+}
+
+music_welcome group(music) maxinst(1, 1) = {
+	note:
+		6: A4
+	vol(.75)
+		6: D4
+		2: 0
+		1: A4 C5
+	vol(.9)
+		2: B4 A4 G4
+	vol(.7)
+		4: D4
+}
+
+music_victory group(music) maxinst(1, 1) = {
+	note:
+		6: A4
+	vol(.75)
+		6: D5
+		2: 0
+		1: D4 F#4
+	vol(.9)
+		2: G4 A4 B4
+	vol(.7)
+		4: A4
+}
+
+music_game_over group(music) maxinst(1, 1) = {
+	note:
+		6: A4
+	vol(.75)
+		6: A3
+		2: 0
+		1: A3 C4
+	vol(.9)
+		2: D4 C4 C4
+	vol(.7)
+		4: D4
+}
+
+missed_note:%m = dur(!.33) {
+	vol(0.0)
+	fadein(!.33)
+	@loop
+	noise5(#%m)
+}
+
+missed group(music) = {
+	vol(0.5)
+	missed_note: C6 B5 A#5
+}
