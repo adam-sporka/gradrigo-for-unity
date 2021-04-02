@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 	public int m_nLives = 3;
 	public int m_nBars = 0;
 	public int m_nScore = 0;
+	public float m_fCountSeconds = 0.0f;
 
 	public bool m_ResetBall = false;
 
@@ -53,6 +54,7 @@ public class GameController : MonoBehaviour
 		m_nScore = 0;
 		m_nLives = 3;
 		m_Paddle.ResetBeforeGame();
+		m_fCountSeconds = 0;
 
 		foreach (var a in m_Bars)
 		{
@@ -275,7 +277,8 @@ music_game_over = {
 		}
 		else if (m_GameScreen == Screens.GAME)
 		{
-			m_Score.text = "Lives left: " + m_nLives.ToString();
+			m_fCountSeconds += Time.deltaTime;
+			m_Score.text = "Lives left: " + m_nLives.ToString() + " – Time: " + m_fCountSeconds.ToString("000.0");
 
 			if (m_GoMessage >= 0)
 			{
