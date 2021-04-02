@@ -5,31 +5,29 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-	public int m_nLives = 3;
-	public int m_nBars = 0;
-	public int m_nScore = 0;
-	public float m_fCountSeconds = 0.0f;
-
-	public bool m_ResetBall = false;
-
-	public GameObject m_BarObject;
 	public Gradrigo m_Gradrigo;
+	public TextAsset m_GradrigoScript;
 
+	// Game objects
+	public BallController m_Ball;
+	public PaddleScript m_Paddle;
+	public GameObject m_BarObject;
+
+	// On-screen GUI
 	public Text m_Message;
 	public Text m_Score;
 	public GameObject m_Logo;
 
-	public BallController m_Ball;
-	public PaddleScript m_Paddle;
-
-	public bool m_bFirstUpdate = true;
-
-	float m_GetReadyCountdown;
-	string m_LastCountdownText = "";
-	float m_GoMessage = 0.0f;
-	int m_nLastMusicVoice = -1;
-
+	// Game State
 	ArrayList m_Bars = new ArrayList();
+	int m_nLives = 3;
+	int m_nBarsPlaced = 0;
+	int m_nBarsDestroyed = 0;
+	float m_fStopwatch = 0.0f;
+
+	string m_LastCountdownText = "";
+	float m_MessageCountdown = 0.0f;
+	float m_GetReadyCountdown = 0.0f;
 
 	////////////////////////////////////////////////////////////////
 	public enum Screens
@@ -45,16 +43,17 @@ public class GameController : MonoBehaviour
 		m_Message.text = "";
 		m_Score.text = "";
 		m_Gradrigo = GetComponent<Gradrigo>();
+		m_Gradrigo.ParseString(m_GradrigoScript.text);
 	}
 
 	////////////////////////////////////////////////////////////////
 	void ResetGame()
 	{
-		m_nBars = 0;
-		m_nScore = 0;
+		m_nBarsPlaced = 0;
+		m_nBarsDestroyed = 0;
 		m_nLives = 3;
 		m_Paddle.ResetBeforeGame();
-		m_fCountSeconds = 0;
+		m_fStopwatch = 0;
 
 		foreach (var a in m_Bars)
 		{
@@ -67,10 +66,10 @@ public class GameController : MonoBehaviour
 		{
 			for (float y = 4; y <= 7.6f; y += 1.5f)
 			{
-				m_nBars++;
+				m_nBarsPlaced++;
 
 				var newBar = Instantiate(m_BarObject, new Vector3(x, y, 0.0f), Quaternion.identity);
-				newBar.name = "Bar " + m_nBars.ToString();
+				newBar.name = "Bar " + m_nBarsPlaced.ToString();
 				m_Bars.Add(newBar);
 			}
 		}
@@ -80,7 +79,6 @@ public class GameController : MonoBehaviour
 	void SwitchScreen(Screens screen)
 	{
 		m_GameScreen = screen;
-		// Do sound here
 
 		if (screen == Screens.INTRO)
 		{
@@ -89,14 +87,12 @@ public class GameController : MonoBehaviour
 			m_Message.text = "Welcome! Press SPACE to Start";
 			m_Score.text = "";
 			m_Logo.SetActive(true);
-			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_welcome");
-			Debug.Log(m_nLastMusicVoice);
+
+			m_Gradrigo.StartVoice("music_welcome");
 		}
 
 		if (screen == Screens.GET_READY)
 		{
-			m_Gradrigo.StopVoice(m_nLastMusicVoice);
 			m_Ball.ResetBeforeGame();
 			m_Message.text = "";
 			m_LastCountdownText = "";
@@ -106,40 +102,38 @@ public class GameController : MonoBehaviour
 		if (screen == Screens.MISSED)
 		{
 			m_Message.text = "Missed! Press SPACE to Continue";
-			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("missed");
+			m_Gradrigo.StartVoice("missed");
 		}
 
 		if (screen == Screens.GAME)
 		{
 			m_Logo.SetActive(false);
-			m_GoMessage = 2f;
 			m_Message.text = "GO!";
+			m_MessageCountdown = 2f;
 			m_Ball.SetupForGame();
 		}
 
 		if (screen == Screens.GAME_OVER)
 		{
 			m_Message.text = "Game Over – Press SPACE to Play Again";
-			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_game_over");
+			m_Gradrigo.StartVoice("music_game_over");
 		}
 
 		if (screen == Screens.VICTORY)
 		{
 			m_Message.text = "Congrats! – Press SPACE to Play Again";
-			m_Gradrigo.StopVoice(m_nLastMusicVoice);
-			m_nLastMusicVoice = m_Gradrigo.StartVoice("music_victory");
+			m_Gradrigo.StartVoice("music_victory");
 		}
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void OnBarDestroyed(GameObject obj)
 	{
-		m_nBars--;
-		m_nScore++;
-		m_Gradrigo.StartVoice("bar_bounce:" + m_nScore.ToString());
+		m_nBarsPlaced--;
+		m_nBarsDestroyed++;
 		m_Bars.Remove(obj);
+
+		m_Gradrigo.StartVoice("bar_bounce:" + m_nBarsDestroyed.ToString());
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -157,117 +151,14 @@ public class GameController : MonoBehaviour
 	}
 
 	////////////////////////////////////////////////////////////////
-	void FirstUpdate()
-	{
-		m_Gradrigo.ParseString(@"
-
-wall_bounce = dur(~0.15) {
-	fadeout(~0.15)
-	%d = 40
-	@loop
-	noise17e(%d)
-}
-
-paddle_bounce:%d = dur(~0.2) {
-	fadeout(~0.2)
-	%a = #60 - %d
-	@loop
-	sqr(%a)
-	%a = %a - ? * 0.004
-}
-
-bar_bounce:%d = dur(~0.2) {
-	fadeout(~0.2)
-	%r = #(72 + %d)
-	@loop
-	dur (~0.04) {
-		fadeout(~0.04)
-		@loop sqr(%r)
-	}
-	dur (~0.04) {
-		@loop `5`
-	}
-}
-
-missed_note:%m = dur(!0.33) {
-	vol(0.0)
-	fadein(!0.33)
-	@loop
-	noise5(#%m)
-}
-
-tick:%d = {
-	dur(~0.05) { @loop sqr(#%d) }
-}
-
-missed = {
-	vol(0.5)
-	missed_note: C6 B5 A#5
-}
-
-note:%d:%w = {
-	%d = !(%d * .25)
-	dur(%d) {
-		fadeout(%d)
-		@loop sqr(#%w)
-	}
-}
-
-music_welcome = {
-	note:
-		6: A4 
-	vol(.75) 
-		6: D4 
-		2: 0
-		1: A4 C5
-	vol(.9) 
-		2: B4 A4 G4
-	vol(.7)
-		4: D4
-}
-
-music_victory = {
-	note:
-		6: A4 
-	vol(.75) 
-		6: D5
-		2: 0
-		1: D4 F#4
-	vol(.9) 
-		2: G4 A4 B4
-	vol(.7)
-		4: A4
-}
-
-music_game_over = {
-	note:
-		6: A4 
-	vol(.75) 
-		6: A3
-		2: 0
-		1: A3 C4
-	vol(.9) 
-		2: D4 C4 C4
-	vol(.7)
-		4: D4
-}"
-
-		);
-	}
-
-	////////////////////////////////////////////////////////////////
 	void Update()
 	{
-		if (m_bFirstUpdate)
-		{
-			FirstUpdate();
-			m_bFirstUpdate = false;
-		}
-
 		if (m_GameScreen == Screens.NOTHING)
 		{
 			SwitchScreen(Screens.INTRO);
 		}
+
+		////////////////////////////////
 		else if (m_GameScreen == Screens.INTRO || m_GameScreen == Screens.MISSED)
 		{
 			if (Input.GetKeyDown(KeyCode.Space))
@@ -275,25 +166,29 @@ music_game_over = {
 				SwitchScreen(Screens.GET_READY);
 			}
 		}
+
+		////////////////////////////////
 		else if (m_GameScreen == Screens.GAME)
 		{
-			m_fCountSeconds += Time.deltaTime;
-			m_Score.text = "Lives left: " + m_nLives.ToString() + " – Time: " + m_fCountSeconds.ToString("000.0");
+			m_fStopwatch += Time.deltaTime;
+			m_Score.text = "Lives left: " + m_nLives.ToString() + " – Time: " + m_fStopwatch.ToString("000.0");
 
-			if (m_GoMessage >= 0)
+			if (m_MessageCountdown >= 0)
 			{
-				m_GoMessage -= Time.deltaTime;
+				m_MessageCountdown -= Time.deltaTime;
 			}
 			else
 			{
 				m_Message.text = "";
 			}
 
-			if (m_nBars == 0)
+			if (m_nBarsPlaced == 0)
 			{
 				SwitchScreen(Screens.VICTORY);
 			}
 		}
+
+		////////////////////////////////
 		else if (m_GameScreen == Screens.GET_READY)
 		{
 			m_GetReadyCountdown -= 3.0f * Time.deltaTime;
@@ -313,6 +208,8 @@ music_game_over = {
 				SwitchScreen(Screens.GAME);
 			}
 		}
+
+		////////////////////////////////
 		else if (m_GameScreen == Screens.VICTORY || m_GameScreen == Screens.GAME_OVER)
 		{
 			if (Input.GetKeyDown(KeyCode.Space))

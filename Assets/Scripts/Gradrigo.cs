@@ -1,18 +1,27 @@
-// Overall tutorial
-// https://www.alanzucconi.com/2015/10/11/how-to-write-native-plugins-for-unity/
-
-// More detailed reference for data types
-// https://bravenewmethod.com/2017/10/30/unity-c-native-plugin-examples/
-
-// Making the playback 3D
-// https://stackoverflow.com/questions/38843408/realtime-3d-audio-streaming-and-playback
+// +-----------------+
+// |   gradrigo.cs   |
+// +-----------------+
+//
+// Unity Interface for Gradrigo
+// by Adam Sporka
+//
+// Currently for Windows only
+//
+// This script is based on the tutorial by Alan Zucconi
+// Based on https://www.alanzucconi.com/2015/10/11/how-to-write-native-plugins-for-unity/
+//
+// Please support Gradrigo on Patreon
+// https://patreon.com/adam_sporka
+//
+// Check the website
+// https://adam.sporka.eu/gradrigo.html
 
 using UnityEngine;
 using System.Runtime.InteropServices;
  
 public class Gradrigo : MonoBehaviour
 {
-#if (UNITY_IPHONE || UNITY_WEBGL || UNITY_ANDROID) && !UNITY_EDITOR 
+#if (UNITY_IPHONE || UNITY_WEBGL || UNITY_ANDROID) && !UNITY_EDITOR
 	[DllImport("__Internal", EntryPoint = "NewInstance")]
 #else 
 	[DllImport("gradrigo.dll", EntryPoint = "NewInstance")]
@@ -115,44 +124,45 @@ public class Gradrigo : MonoBehaviour
 	////////////////////////////////////////////////////////////////
 	public int StartVoice(string voice)
 	{
-		return _StartVoice(voice, m_nGradrigoInstanceId);
+		return _StartVoice(voice, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
 	public int ParseString(string gradrigo_source_code)
 	{
-		if (!running)
+		if (!m_bRunning)
 		{
+			m_sTextToParse = gradrigo_source_code;
 			return 0;
 		}
 
-		int result = _ParseString(gradrigo_source_code, m_nGradrigoInstanceId);
+		int result = _ParseString(gradrigo_source_code, m_InstanceID);
 		return result;
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void ReleaseVoice(int id)
 	{
-		_ReleaseVoice(id, m_nGradrigoInstanceId);
+		_ReleaseVoice(id, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void StopVoice(int id)
 	{
-		_StopVoice(id, m_nGradrigoInstanceId);
+		_StopVoice(id, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void OnAudioFilterRead(float[] data, int channels)
 	{
-		if (!running)
+		if (!m_bRunning)
 		{
 			return;
 		}
 
 		int num_frames = data.Length / channels;
 		float[] temp = new float[num_frames];
-		int num = GetBuffer(num_frames, temp, m_nGradrigoInstanceId);
+		int num = GetBuffer(num_frames, temp, m_InstanceID);
 
 		int i = 0;
 		for (int n = 0; n < num_frames; n++)
@@ -172,8 +182,8 @@ public class Gradrigo : MonoBehaviour
 		audio_configuration.dspBufferSize = 512;
 		AudioSettings.Reset(audio_configuration);
 
-		m_nGradrigoInstanceId = NewInstance(audio_configuration.sampleRate);
-		Debug.Log("Gradrigo instance ID will be " + m_nGradrigoInstanceId);
+		m_InstanceID = NewInstance(audio_configuration.sampleRate);
+		Debug.Log("Gradrigo instance ID will be " + m_InstanceID);
 
 		var dummy = AudioClip.Create("dummy", 1, 1, AudioSettings.outputSampleRate, false);
 		dummy.SetData(new float[] { 1 }, 0);
@@ -184,27 +194,35 @@ public class Gradrigo : MonoBehaviour
 		TargetSrc.spatialBlend = 1;
 		TargetSrc.Play();
 
-		running = true;
+		m_bRunning = true;
+
+		if (m_sTextToParse.Length > 0)
+		{
+			ParseString(m_sTextToParse);
+			m_sTextToParse = "";	
+		}
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void SetVariable(string name, float value)
 	{
-		if (!running)
+		if (!m_bRunning)
 		{
 			return;
 		}
 
-		_SetVariable(name, value, m_nGradrigoInstanceId);
+		_SetVariable(name, value, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
 	public void OnDestroy()
 	{
-		Debug.Log("Destroying instance ID " + m_nGradrigoInstanceId);
-		DestroyInstance(m_nGradrigoInstanceId);
+		Debug.Log("Destroying instance ID " + m_InstanceID);
+		DestroyInstance(m_InstanceID);
 	}
 
-	public int m_nGradrigoInstanceId;
-	public bool running;
+	public int m_InstanceID;
+
+	bool m_bRunning;
+	string m_sTextToParse;
 }

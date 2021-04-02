@@ -36,27 +36,32 @@ public class BallController : MonoBehaviour
 	{
 		if (game.m_GameScreen == GameController.Screens.GAME)
 		{
+			// Don't be too slow
 			if (rb.velocity.magnitude < 10.0f)
 			{
 				rb.velocity = rb.velocity * (10.0f / rb.velocity.magnitude);
 			}
 
+			// Don't be too fast
 			if (rb.velocity.magnitude > 30.0f)
 			{
 				rb.velocity = rb.velocity * (30.0f / rb.velocity.magnitude);
 			}
 
+			// Don't be too horizontal
 			if (Mathf.Abs(rb.velocity.y) < 5.0f)
 			{
 				rb.velocity += new Vector2(0, rb.velocity.y > 0 ? 5f : -5f);
 			}
 
+			// Detect ball fell
 			if (transform.position.y < -12)
 			{
 				game.OnBallOut();
 			}
 		}
 
+		// Stop ball when won
 		if (game.m_GameScreen == GameController.Screens.VICTORY)
 		{
 			rb.velocity = Vector2.zero;
@@ -66,7 +71,8 @@ public class BallController : MonoBehaviour
 	////////////////////////////////////////////////////////////////
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.collider.tag == "bar") {
+		if (collision.collider.tag == "bar")
+		{
 			if (destroyed.IndexOf(collision.collider.name) < 0)
 			{
 				collision.gameObject.GetInstanceID();
