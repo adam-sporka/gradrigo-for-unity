@@ -12,5 +12,5 @@ in this example.
 Author's home page:
 https://adam.sporka.eu
 
-Project home page:
+Gradrigo home page:
 https://adam.sporka.eu/gradrigo.html
