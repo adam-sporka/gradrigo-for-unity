@@ -81,15 +81,5 @@ public class BallController : MonoBehaviour
 				Destroy(collision.collider.gameObject);
 			}
 		}
-
-		if (collision.collider.tag == "paddle")
-		{
-			game.m_Gradrigo.StartVoice("paddle_bounce:" + (1.0f * rb.velocity.magnitude).ToString());
-		}
-
-		if (collision.collider.tag == "level")
-		{
-			game.m_Gradrigo.StartVoice("wall_bounce");
-		}
 	}
 }

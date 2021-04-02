@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-	public Gradrigo m_Gradrigo;
-	public TextAsset m_GradrigoScript;
-
 	// Game objects
 	public BallController m_Ball;
 	public PaddleScript m_Paddle;
@@ -42,8 +39,6 @@ public class GameController : MonoBehaviour
 	{
 		m_Message.text = "";
 		m_Score.text = "";
-		m_Gradrigo = GetComponent<Gradrigo>();
-		m_Gradrigo.ParseString(m_GradrigoScript.text);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -87,8 +82,6 @@ public class GameController : MonoBehaviour
 			m_Message.text = "Welcome! Press SPACE to Start";
 			m_Score.text = "";
 			m_Logo.SetActive(true);
-
-			m_Gradrigo.StartVoice("music_welcome");
 		}
 
 		if (screen == Screens.GET_READY)
@@ -102,7 +95,6 @@ public class GameController : MonoBehaviour
 		if (screen == Screens.MISSED)
 		{
 			m_Message.text = "Missed! Press SPACE to Continue";
-			m_Gradrigo.StartVoice("missed");
 		}
 
 		if (screen == Screens.GAME)
@@ -116,13 +108,11 @@ public class GameController : MonoBehaviour
 		if (screen == Screens.GAME_OVER)
 		{
 			m_Message.text = "Game Over – Press SPACE to Play Again";
-			m_Gradrigo.StartVoice("music_game_over");
 		}
 
 		if (screen == Screens.VICTORY)
 		{
 			m_Message.text = "Congrats! – Press SPACE to Play Again";
-			m_Gradrigo.StartVoice("music_victory");
 		}
 	}
 
@@ -132,8 +122,6 @@ public class GameController : MonoBehaviour
 		m_nBarsPlaced--;
 		m_nBarsDestroyed++;
 		m_Bars.Remove(obj);
-
-		m_Gradrigo.StartVoice("bar_bounce:" + m_nBarsDestroyed.ToString());
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -193,15 +181,6 @@ public class GameController : MonoBehaviour
 		{
 			m_GetReadyCountdown -= 3.0f * Time.deltaTime;
 			m_Message.text = Mathf.CeilToInt(m_GetReadyCountdown).ToString();
-
-			if (m_LastCountdownText != m_Message.text)
-			{
-				int note = 60;
-				if (m_GetReadyCountdown <= 0.0f) note = 72;
-
-				m_Gradrigo.StartVoice("tick:" + note.ToString());
-				m_LastCountdownText = m_Message.text;
-			}
 
 			if (m_GetReadyCountdown <= 0.0f)
 			{
