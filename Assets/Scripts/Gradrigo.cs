@@ -5,16 +5,30 @@
 // Unity Interface for Gradrigo
 // by Adam Sporka
 //
-// (Currently for Windows only)
+// Work in progress, currently for Windows only
 //
-// Check the website
+// Check the website for the latest version and for licensing options
 // https://adam.sporka.eu/gradrigo.html
 //
 // Please support Gradrigo on Patreon
 // https://patreon.com/adam_sporka
+//
+// Gradrigo is provided by the copyright holders and contributors "as is"
+// and any express or implied warranties, including, but not limited to,
+// the implied warranties of merchantability and fitness for
+// a particular purpose are disclaimed. in no event shall the copyright
+// holder or contributors be liable for any direct, indirect, incidental,
+// special, exemplary, or consequential damages (including,
+// but not limited to, procurement of substitute goods or services;
+// loss of use, data, or profits; or business interruption) however caused
+// and on any theory of liability, whether in contract, strict liability,
+// or tort (including negligence or otherwise) arising in any way out
+// of the use of this software, even if advised of the possibility of such
+// damage. 
 
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 public class Gradrigo : MonoBehaviour
 {
@@ -60,34 +74,67 @@ public class Gradrigo : MonoBehaviour
 	public static extern string _ReportBoxesAsJson(int id);
 
 	////////////////////////////////////////////////////////////////
-	public int StartVoice(string voice)
-	{
-		return _StartVoice(voice, m_InstanceID);
-	}
-
-	////////////////////////////////////////////////////////////////
-	public int ParseString(string gradrigo_source_code)
+	/// <summary>
+	/// Have the Gradrigo engine parse the given script and alter its behavior
+	/// accordingly.
+	/// </summary>
+	/// <param name="gradrigo_source_code">Gradrigo code</param>
+	public void ParseString(string gradrigo_source_code)
 	{
 		if (!m_bRunning)
 		{
 			m_sTextToParse = gradrigo_source_code;
-			return 0;
+			return;
 		}
-
-		int result = _ParseString(gradrigo_source_code, m_InstanceID);
-		return result;
+		_ParseString(gradrigo_source_code, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Start an existing box (audio event) in a new voice
+	/// </summary>
+	/// <param name="text">The box is specified as a string followed by parameters.
+	/// e.g. "blip:60" would start box "blib" and pass 60 as a parameter to it.
+	/// The need for parameters depends on the Gradrigo script (see ParseString).
+	/// See Gradrigo built-in tutorial for more.</param>
+	/// <returns>Voice ID to use with ReleaseVoice and StopVoice if needed</returns>
+	public int StartVoice(string text)
+	{
+		return _StartVoice(text, m_InstanceID);
+	}
+
+	////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Release the given voice. The voice might not stop immediately, based
+	/// on its starting box is scripted.
+	/// </summary>
+	/// <param name="id">ID obtained by StartVoice</param>
 	public void ReleaseVoice(int id)
 	{
 		_ReleaseVoice(id, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Stop the given voice immediately.
+	/// </summary>
+	/// <param name="id">ID obtained by StartVoice</param>
 	public void StopVoice(int id)
 	{
 		_StopVoice(id, m_InstanceID);
+	}
+
+	////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Set a global variable to a given value.
+	/// To be used after the engine started producing sound.
+	/// </summary>
+	/// <param name="name">Name of the global variable</param>
+	/// <param name="value">Target value</param>
+	public void SetVariable(string name, float value)
+	{
+		if (!m_bRunning) return;
+		_SetVariable(name, value, m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -141,24 +188,13 @@ public class Gradrigo : MonoBehaviour
 	}
 
 	////////////////////////////////////////////////////////////////
-	public void SetVariable(string name, float value)
-	{
-		if (!m_bRunning)
-		{
-			return;
-		}
-
-		_SetVariable(name, value, m_InstanceID);
-	}
-
-	////////////////////////////////////////////////////////////////
 	public void OnDestroy()
 	{
 		DestroyInstance(m_InstanceID);
 	}
 
+	////////////////////////////////////////////////////////////////
 	public int m_InstanceID;
-
 	bool m_bRunning;
 	string m_sTextToParse;
 }
