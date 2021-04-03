@@ -11,3 +11,11 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+Use for non-commercial purposes is possible for free. Use for
+commercial purposes requires a commercial license.
+
+To obtain the latest version of Gradrigo and for licensing options,
+please visit https://adam.sporka.eu (https://adamsporka.com)
+
+2021-04-02
