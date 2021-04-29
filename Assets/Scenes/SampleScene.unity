@@ -789,18 +789,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99afa84c3d7db84488cf983f0d458bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_nLives: 3
-  m_nBars: 0
-  m_nScore: 0
-  m_ResetBall: 0
+  m_Gradrigo: {fileID: 519420034}
+  m_GradrigoScript: {fileID: 4900000, guid: adc65d9a0e3fa3c4c9498b2ec95ec8fd, type: 3}
+  m_Ball: {fileID: 995992085}
+  m_Paddle: {fileID: 461008985}
   m_BarObject: {fileID: 127632222618993444, guid: 4f8263166fe63d744a1bbb252177c7d5, type: 3}
-  m_Gradrigo: {fileID: 0}
   m_Message: {fileID: 305975894}
   m_Score: {fileID: 426447284}
   m_Logo: {fileID: 861286346}
-  m_Ball: {fileID: 995992085}
-  m_Paddle: {fileID: 461008985}
-  m_bFirstUpdate: 1
   m_GameScreen: 0
 --- !u!20 &519420031
 Camera:
@@ -969,8 +965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5f6f9ff1775fc49bbbd173221e6344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_nGradrigoInstanceId: 0
-  running: 0
+  m_InstanceID: 0
 --- !u!1 &706856394
 GameObject:
   m_ObjectHideFlags: 0

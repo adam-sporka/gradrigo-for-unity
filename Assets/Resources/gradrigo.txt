@@ -33,11 +33,11 @@ missed_note:%m = dur(!0.33) {
 	noise5(#%m)
 }
 
-tick:%d = {
+tick:%d maxinst(1, 1) = {
 	dur(~0.05) { @loop sqr(#%d) }
 }
 
-missed = {
+missed maxinst(1, 1) = {
 	vol(0.5)
 	missed_note: C6 B5 A#5
 }
@@ -50,7 +50,7 @@ note:%d:%w = {
 	}
 }
 
-music_welcome = {
+music_welcome maxinst(1, 1) = {
 	note:
 		6: A4 
 	vol(.75) 
@@ -63,7 +63,7 @@ music_welcome = {
 		4: D4
 }
 
-music_victory = {
+music_victory maxinst(1, 1) = {
 	note:
 		6: A4 
 	vol(.75) 
@@ -76,7 +76,7 @@ music_victory = {
 		4: A4
 }
 
-music_game_over = {
+music_game_over maxinst(1, 1) = {
 	note:
 		6: A4 
 	vol(.75) 
