@@ -1,0 +1,79 @@
+GRADRIGO FOR UNITY 0.0.5
+by Adam Sporka
+
+
+Contents of this package
+------------------------
+
+ * Demo: A demonstration game showing the Gradrigo implementation
+ * Documentation: This file, license, Gradrigo Language Manual, and logos
+ * Plugins: The x86_64 .dll file
+ * Scripts: gradrigo.cs script
+
+   (No need to keep Demo in, once you get an idea how Gradrigo works.)
+
+
+Want to watch videos instead of reading?
+----------------------------------------
+
+ * Check out my YouTube playlist on Gradrigo:
+   https://www.youtube.com/playlist?list=PLv7rDYxnCykXOUNmnR06I06ZfCpMjUNeV
+
+
+How to run Gradrigo for Unity
+------------------------------
+
+1. Add gradrigo.cs script as a component of some global object.
+
+2. Add an Audio Source component to the same object.
+
+3. The global object and other objects may call the following methods
+   of the Gradrigo class:
+
+   -- ParseString
+   -- StartVoice
+   -- ReleaseVoice
+   -- StopVoice
+   -- StopAllVoices
+   -- SetVariable 
+
+   Please check gradrigo.cs for more information on those methods.
+   
+   In general, you want to parse your Gradrigo script first.
+   
+   You then want to start a voice with a name of an existing box.
+   (Note: Boxes are what FMOD Studio would call Events.) You may
+   also provide parameters to this box instance. If a box instance
+   misses a parameter, it will default it to zero. Parameters are
+   presented in the 
+   
+   Sustained sound need to be released (i.e. natural stop) or stopped
+   (abrupt stop). You may stop all voices at once, but this is usually
+   done only during emergencies.
+   
+   SetVariable sets the global variables.
+   
+
+How to run Gradrigo for Unity in multi-instance mode
+-----------------------------------------------------
+
+gradrigo.cs script can be added to any number of game objects.
+If any such object has also its Audio Source component, it will
+be an independent Gradrigo instance host. Just set its Spatial
+Blend to 3D and let Unity do its 3D audio magic! In any case,
+please be mindful of the computational load.
+
+
+Questions?
+----------
+
+Please let me know if anything doesn't work the way you suppose to.
+I'll do my best to fix that or the corresponding part of the documentation.
+
+https://adam.sporka.eu
+https://twitter.com/adam_sporka
+https://discord.gg/XfhECyVTNQ
+
+Phone: +420-603-287-605
+e-mail: adam.j.sporka@gmail.com
+Discord ID: AdamJ#9138

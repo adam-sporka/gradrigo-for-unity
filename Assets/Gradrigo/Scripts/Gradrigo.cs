@@ -2,7 +2,7 @@
 // |   gradrigo.cs   |
 // +-----------------+
 //
-// Unity Interface for Gradrigo
+// Unity for Gradrigo 0.0.5
 // by Adam Sporka
 //
 // Work in progress, currently for Windows only
@@ -75,15 +75,22 @@ public class Gradrigo : MonoBehaviour
 
 	////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Have the Gradrigo engine parse the given script and alter its behavior
-	/// accordingly.
+	/// Have the Gradrigo engine parse the given script. You may make
+	/// multiple calls to this method. You may even redefine the 
+	/// same boxes at run-time, even though heavy parsing is discouraged
+	/// as it's performed directly in the audio thread. The safest
+	/// way is to call this during the initialization of your game.
 	/// </summary>
-	/// <param name="gradrigo_source_code">Gradrigo code</param>
+	/// <param name="gradrigo_source_code">
+	/// Gradrigo code. To learn the syntax, please check the tutorial
+	/// in the Gradrigo Standalone App or read
+	/// https://adam.sporka.eu/gradrigo-language-manual.html
+	/// </param>
 	public void ParseString(string gradrigo_source_code)
 	{
 		if (!m_bRunning)
 		{
-			m_sTextToParse = gradrigo_source_code;
+			m_sTextToParse = m_sTextToParse + "\n" + gradrigo_source_code;
 			return;
 		}
 		_ParseString(gradrigo_source_code, m_InstanceID);
@@ -105,8 +112,9 @@ public class Gradrigo : MonoBehaviour
 
 	////////////////////////////////////////////////////////////////
 	/// <summary>
-	/// Release the given voice. The voice might not stop immediately, based
-	/// on its starting box is scripted.
+	/// Release the given voice, i.e. enter the release phase of the playback.
+	/// The voice would eventually stop playing. See ** @release LABEL ** in
+	/// gradrigo-language-manual.html
 	/// </summary>
 	/// <param name="id">ID obtained by StartVoice</param>
 	public void ReleaseVoice(int id)
@@ -122,6 +130,16 @@ public class Gradrigo : MonoBehaviour
 	public void StopVoice(int id)
 	{
 		_StopVoice(id, m_InstanceID);
+	}
+
+	////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Stop all voices immediately. (The computer musicians call this
+	/// the "panic button".)
+	/// </summary>
+	public void StopAllVoices()
+	{
+		_StopAllVoices(m_InstanceID);
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -150,11 +168,11 @@ public class Gradrigo : MonoBehaviour
 		int num = GetBuffer(num_frames, temp, m_InstanceID);
 
 		int i = 0;
-		for (int n = 0; n < num_frames; n++)
+		for (int f = 0; f < num_frames; f++)
 		{
 			for (int c = 0; c < channels; c++)
 			{
-				data[i] *= temp[n];
+				data[i] *= temp[f];
 				i++;
 			}
 		}
@@ -173,7 +191,7 @@ public class Gradrigo : MonoBehaviour
 		dummy.SetData(new float[] { 1 }, 0);
 
 		AudioSource TargetSrc = GetComponent<AudioSource>();
-		TargetSrc.clip = dummy; //just to let unity play the audiosource
+		TargetSrc.clip = dummy;
 		TargetSrc.loop = true;
 		TargetSrc.spatialBlend = 1;
 		TargetSrc.Play();
@@ -194,7 +212,7 @@ public class Gradrigo : MonoBehaviour
 	}
 
 	////////////////////////////////////////////////////////////////
-	public int m_InstanceID;
-	bool m_bRunning;
-	string m_sTextToParse;
+	public int m_InstanceID = 0;
+	string m_sTextToParse = "";
+	bool m_bRunning = false;
 }

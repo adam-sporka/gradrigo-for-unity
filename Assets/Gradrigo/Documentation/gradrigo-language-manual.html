@@ -1,0 +1,966 @@
+<html><head><style>
+body { width: 800px; margin-left: auto; margin-right: auto; }
+.chapter { margin-top: 20px; margin-bottom: 20px; background-color: #f0f0f0; padding: 10pt; }
+.text {font-family: consolas, courier new; white-space: pre; font-size: 10pt; display:block; }
+.code {font-family: consolas, courier new; white-space: pre; color: #0000ff; margin-left: 30pt; font-size: 8pt; display:block; }
+</style></head>
+<body>
+<p style='text-align:center'><img src='data:image/png;base64,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' /></p><div class='chapter'><div class='text'>** WELCOME TO GRADRIGO **</div>
+<div class='text'>-------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Depending on how you use it, Gradrigo can function as a synthesizer (VST3), sequencer, audio</div>
+<div class='text'>middleware, and a live coding platform. Gradrigo is an audio synthesis engine for interactive</div>
+<div class='text'>chiptunes and chiptune sound effects. Gradrigo feels a bit like writing music in Paul Slocum's</div>
+<div class='text'>Atari 2600 Sequencer Kit but it's platform-agnostic. A bit like Viznut's ByteBeat but more</div>
+<div class='text'>intuitive. A bit like SuperCollider, but waaay simpler and chiptune-oriented.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>You define sound by writing piece of code in Gradrigo Programming Language. It's a very simple</div>
+<div class='text'>language. Think of it as something slightly higher than assembler.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| Parts of this text marked like this "// ||" are only relevant to the Gradrigo VST or</div>
+<div class='text'>|| Gradrigo Standalone App.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>If you're reading this text as a page on the web, please consider downloading the Gradrigo</div>
+<div class='text'>Standalone App and continue there. You'll be able to test the examples directly in it.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>++----------------------------------------------------------------------------------------++</div>
+<div class='text'>**   / \    SAFETY WARNING: As with anything that synthesizes audio, please make sure to  **</div>
+<div class='text'>**  / | \   LISTEN TO THE OUTPUT AT A LOW VOLUME. Very loud noises can be generated using **</div>
+<div class='text'>** /  .  \  Gradrigo, especially when debugging your sounds.                              **</div>
+<div class='text'>++----------------------------------------------------------------------------------------++</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>To use the Gradrigo VST or Gradrigo Standalone App:</div>
+<div class='text'>---------------------------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'> 0. GET IT HERE:</div>
+<div class='text'>    https://adam.sporka.eu/gradrigo.html</div>
+<div class='text'>    (Adam Sporka's home page)</div>
+<div class='text'> 1. WRITE CODE</div>
+<div class='text'>    You can use this editor</div>
+<div class='text'> 2. COMPILE </div>
+<div class='text'>    Menu: Engine > Recompile (Ctrl+R)</div>
+<div class='text'> 3. HEAR SOUNDS</div>
+<div class='text'>    By pressing one of the buttons that appear on the right</div>
+<div class='text'>    (or by pressing MIDI keys or routing MIDI events from your DAW, about that later)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>To use Gradrigo for Unity:</div>
+<div class='text'>--------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'> 0. GET IT HERE:</div>
+<div class='text'>    https://u3d.as/2E6f</div>
+<div class='text'>    (Unity Asset Store)</div>
+<div class='text'> 1. DESIGN YOUR SOUNDS</div>
+<div class='text'>    Use Gradrigo Standalone App or Gradrigo VST. While this is not necessary for using</div>
+<div class='text'>    Gradrigo in Unity, it's definitely much easier to design your sounds outside Unity first.</div>
+<div class='text'> 2. INSTANTIATE GRADRIGO IN YOUR GAME</div>
+<div class='text'>    Either download a .zip file from my website or get it from the Asset Store</div>
+<div class='text'> 3. TRIGGER SOUNDS USING API</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>A tutorial is here:</div>
+<div class='text'>https://www.youtube.com/watch?v=xfXn7zsSVXo</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Here is a very simple 8-bit kaboom sound:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   kaboom = dur(~1) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     noise5(%a)</div>
+<div class='code'>     %a = %a + 0.01</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>And here is a bouncy sound with random pitch:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   random = {</div>
+<div class='code'>     %d = ~0.1 + ? * ~0.1</div>
+<div class='code'>     %n = C4 + ? * 24  dur(%d) { vol(1.0) fadeout(%d) @loop sqr(#%n) }</div>
+<div class='code'>     %n = %n + 1       dur(%d) { vol(0.5) fadeout(%d) @loop sqr(#%n) }</div>
+<div class='code'>     %n = %n + 1       dur(%d) { vol(0.2) fadeout(%d) @loop sqr(#%n) }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| By the right edge of this window you should see two buttons, "kaboom" and "blip".</div>
+<div class='text'>|| Those are the compiled sounds, ready to be played back. (Please note that the boxes</div>
+<div class='text'>|| on the right are always sorted alphabetically, regardless of their position</div>
+<div class='text'>|| in the script.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| When you change the code in this editor, just press Ctrl+R to have it recompiled.</div>
+<div class='text'>|| Immediately below this editor you will see if your code has any syntax errors.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo is a parallel grammar-driven hierarchically concatenative synthesizer.</div>
+<div class='text'>-- Grammar-driven, because it interprets pieces of code as audio output</div>
+<div class='text'>-- Hierarchically concatenative, because it produces the complex audio output as concatenation</div>
+<div class='text'>   of shorter pieces, those are produced by even shorter pieces, etc., and somewhere deep down</div>
+<div class='text'>   there are actual waveforms.</div>
+<div class='text'>-- Parallel, because multiple pieces of code can run simultaneously (and also interact between</div>
+<div class='text'>   each other.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| Intrigued? Great! Choose "Next Lesson" in the Tutorial menu</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** BOXES AND SEQUENCES **</div>
+<div class='text'>-------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The boxes are the units of code that produce sound.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>A box is identified by its name and contains a sequence (or more sequences) of output samples,</div>
+<div class='text'>commands, other statements. A sequence is delimited by curly brackets {}.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's start by "drawing" the waveform to be played back, sample-by-sample.  `_` and `-` are</div>
+<div class='text'>the minimum and maximum amplitudes. The following will produce a short blip of square wave.</div>
+<div class='text'>The box is called "short". Please note that those are `backquotes`, not 'apostrophes':</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   short = {</div>
+<div class='code'>     `________--------________--------________--------________--------________--------________--------`</div>
+<div class='code'>     `________--------________--------________--------________--------________--------________--------`</div>
+<div class='code'>     `________--------________--------________--------________--------________--------________--------`</div>
+<div class='code'>     `________--------________--------________--------________--------________--------________--------`</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Writing your square wave this way brings you really, really close to the audio signal.</div>
+<div class='text'>It's like pixel art of audio. It shows how much data is needed to describe even the shortest</div>
+<div class='text'>of the samples.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The "short" box will produce a tiny blip of sound because we specified only 384 samples.</div>
+<div class='text'>At 48000 Hz it would last only 0.008 seconds.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>We can chain the instances of "short" to produce something "longer". The boxes are concatenated</div>
+<div class='text'>back-to-back.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   longer = {</div>
+<div class='code'>     short short short short short short short short short short short short </div>
+<div class='code'>     short short short short short short short short short short short short </div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>To make things really long, it is convenient to use the @loop label.</div>
+<div class='text'>Note the "dur(24000)" which will limit the total number of samples produced by this box to</div>
+<div class='text'>24,000 (0.5 seconds at 48,000 Hz):</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   looped = dur(24000) {</div>
+<div class='code'>     @loop               // <--- Gradrigo will repeat whatever follows the label @loop indefinitely</div>
+<div class='code'>     `________--------`  // <--- 16 samples of the square waveform</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Note: When parameter of dur() is bigger than the number of samples that the sequence would</div>
+<div class='text'>produce, the remaining duration is padded with zero samples. The following box will be 24000</div>
+<div class='text'>samples long eventhough only the first 64 are specified and will be non-zero. This is useful</div>
+<div class='text'>when aligning the blips like this in longer sequences of boxes.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   padded = dur(24000) {</div>
+<div class='code'>    `________--------________--------________--------________--------`</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's "draw" a different shape of the signal. Digits `1` through `9` correspond to different</div>
+<div class='text'>sample values. `1` is the minimum and `9` is the maximum. The `_` and `-` are synonyms of `1`</div>
+<div class='text'>and `9` respectively. The following produces a sawtooth-ish sound: 8 samples of ramp up</div>
+<div class='text'>followed by 8 samples of the minimum. Compare the sound of "longer" and "longer_odd".</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   odd = {</div>
+<div class='code'>     `12345678________12345678________12345678________12345678________12345678________12345678________`</div>
+<div class='code'>     `12345678________12345678________12345678________12345678________12345678________12345678________`</div>
+<div class='code'>     `12345678________12345678________12345678________12345678________12345678________12345678________`</div>
+<div class='code'>     `12345678________12345678________12345678________12345678________12345678________12345678________`</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   longer_odd = {</div>
+<div class='code'>     odd odd odd odd odd odd odd odd odd odd odd odd </div>
+<div class='code'>     odd odd odd odd odd odd odd odd odd odd odd odd </div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's try some more fun stuff with boxes in the next lesson.</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** BOXES, MORE EXAMPLES **</div>
+<div class='text'>--------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>(In the previous lessons I indented the code of the boxes by three spaces from the left to make</div>
+<div class='text'>things more legible. Gradrigo ignores the amount of non-printable characters between statements.</div>
+<div class='text'>From now on, the longer examples won't be indented anymore.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>And you've probably already guessed that the double dashes are line comments.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Anyway, here I define 8 different wave form periods of the identical length. "a" through "g"</div>
+<div class='text'>would be tones, "z" is a silence. (Remember the previous chapter, where it was defined that</div>
+<div class='text'>`5` is in the middle between `1` and `9`, where `1` was the minimum, `9` was the maximum, and</div>
+<div class='text'>that `1` == `_` and `9` == `-`.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   a = { `________________________________________________------------------------------------------------` }</div>
+<div class='code'>   b = { `________________________------------------------________________________------------------------` }</div>
+<div class='code'>   c = { `_______________-----------------________________----------------________________----------------` }</div>
+<div class='code'>   d = { `____________------------____________------------____________------------____________------------` }</div>
+<div class='code'>   e = { `________--------________--------________--------________--------________--------________--------` }</div>
+<div class='code'>   f = { `______------______------______------______------______------______------______------______------` }</div>
+<div class='code'>   g = { `____----____----____----____----____----____----____----____----____----____----____----____----` }</div>
+<div class='code'>   z = { `555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555` }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's chain them up:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   A = { `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa` }</div>
+<div class='code'>   B = { `bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb` }</div>
+<div class='code'>   C = { `cccccccccccccccccccccccccccccccc` }</div>
+<div class='code'>   D = { `dddddddddddddddddddddddddddddddd` }</div>
+<div class='code'>   E = { `eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee` }</div>
+<div class='code'>   F = { `ffffffffffffffffffffffffffffffff` }</div>
+<div class='code'>   G = { `gggggggggggggggggggggggggggggggg` }</div>
+<div class='code'>   Z = { `zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz` }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>And now, let's make some patterns:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   X1 = { `AAAABBBBAAAABBBBAAAABBBBAAAABBBB` }</div>
+<div class='code'>   X2 = { `AAAAZZZZAAAAZZZZAAAAZZZZAAAAZZZZ` }</div>
+<div class='code'>   X3 = { `ABCDEFGZABCDEFGZABCDEFGZABCDEFGZ` }</div>
+<div class='code'>   X4 = { `AEBDACDEFGCABGDFCBAGFEFCDABGEFDC` }</div>
+<div class='code'>   X5 = { `AABBCCDDAABBCCDDCCDDEEFFCCDDEEFF` }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>BTW, the `-notation is a shorthand for chaining the patterns with single-letter names. The box</div>
+<div class='text'>"X6" is identical to "X5":</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   X6 = { A A B B C C D D A A B B C C D D C C D D E E F F C C D D E E F F }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>When naming boxes, please be aware that Grarigo reserves the uppercase note names to denote</div>
+<div class='text'>actual MIDI values associated with them. C4 = 60, C#4 = 61, Eb4 = 63, etc. We will see how</div>
+<div class='text'>to use those soon.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>NOISE</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>When `?` produces a random sample value between -1 and 1. Writing those one after another</div>
+<div class='text'>produces white noise.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   r = { `????????????????????????????????????????????????????????????????????????????????????????????????` }</div>
+<div class='code'>   R = { `rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr` }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's make a veeery rudimentary chiptune which will sound like something straight out</div>
+<div class='text'>of the ATARI 2600:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>  chiptune = { `BBBB RZAA BBBB RZZZ BBBB RZAA BBBB RZZZ</div>
+<div class='code'>                CCBB RAZZ CCBB RAZZ BBZZ RBZZ BBZZ RZZZ`}</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** SQUARE WAVE OSCILLATOR **</div>
+<div class='text'>----------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Producing sound effects as shown in the previous lessons is fun but not very practical.</div>
+<div class='text'>Gradrigo has a few built-in "oscillators".</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Writing the name of the oscillator (sqr in the following example) makes the box produce</div>
+<div class='text'>exactly one sample of that waveform. The number in () parentheses is the length of the period</div>
+<div class='text'>in samples. Writing this:</div>
+<div class='text'></div>
+<div class='text'>   sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)  sqr(6)</div>
+<div class='text'></div>
+<div class='text'>is the same as writing this:</div>
+<div class='text'></div>
+<div class='text'>   `___---___---`</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Typing this would make 128 samples of square wave with the period of 8 samples:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   bad = {</div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>     sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) sqr(8) </div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Very awkward indeed. Let's use the combination of dur() and @loop to save us some typing:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   better = dur(4800) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(40)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** MIDI NOTE NUMBERS AND NAMES **</div>
+<div class='text'>---------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>To make a note of a given pitch we need to know how many samples the waveform should last.</div>
+<div class='text'>To make it easier, Gradrigo has a built-in operator # which converts the MIDI note to the</div>
+<div class='text'>coresponding note of samples of the period closest to that note. The following will play note</div>
+<div class='text'>C4 which is MIDI=60 (according to Roland, not YAMAHA).</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   cee_four_1 = dur(4800) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#60)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>So that we don't need to have a MIDI table handy, we can type note names directly instead</div>
+<div class='text'>of their MIDI numbers:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   cee_four_2 = dur(4800) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's finish with some longer sequence:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   melody = {</div>
+<div class='code'>     dur(10000) { @loop sqr(#D4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#C4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#B3) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#C4) }</div>
+<div class='code'>     dur(40000) { @loop sqr(#Eb4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#F4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#Eb4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#D4) }</div>
+<div class='code'>     dur(10000) { @loop sqr(#Eb4) }</div>
+<div class='code'>     dur(40000) { @loop sqr(#G4) }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Note that dur(<number_of_samples>) can be inside a box multiple times, followed by</div>
+<div class='text'>an unnamed sequence { } with its own loop of things happening inside. dur() makes sure</div>
+<div class='text'>that the duration won't be exceeded.</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** OSCILLATORS sqr, saw, noise5, and noise17e **</div>
+<div class='text'>------------------------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>In addition to sqr() oscillator, there are three more. Here's the complete list:</div>
+<div class='text'></div>
+<div class='text'>oscillator  behavior</div>
+<div class='text'>----------  --------</div>
+<div class='text'>sqr         Square wave generator = -1 for 1/2 of the period, 1 for the other 1/2</div>
+<div class='text'>saw         Upward sawtooth generator = Slope from -1 to 1 with the length of the period</div>
+<div class='text'>noise5      5-bit noise generator from ATARI 800XL</div>
+<div class='text'>noise17e    Simulation of 17-bit noise generator from ATARI 800XL</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   square_wave = dur(48000) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C5)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   sawtooth_wave = dur(48000) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     saw(#C5)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   noise5_wave = dur(48000) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     noise5(#C5)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   noise17e_wave = dur(48000) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     noise17e(#C5)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** TIMING IN GRADRIGO **</div>
+<div class='text'>------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo always internally works with the number of samples. But this is awkward for specifying</div>
+<div class='text'>pitches as well as for specifying durations.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>For this, the following operators have been defined:</div>
+<div class='text'></div>
+<div class='text'>operator  meaning                          example  depends on</div>
+<div class='text'>--------  -------                          -------  ----------</div>
+<div class='text'>   ~      number of seconds                  ~2     sample rate</div>
+<div class='text'>   !      number of 1/4 notes                !2     sample rate, BPM   </div>
+<div class='text'>   @      1 period of frequency             @440    sample rate</div>
+<div class='text'>   #      1 period of MIDI note number      #Eb4    sample rate</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The sample rate is set automatically based on your DAW or your Audio Settings. However, please</div>
+<div class='text'>note that Gradrigo at 44,100 Hz sounds slightly different than Gradrigo at 48,000 Hz because:</div>
+<div class='text'></div>
+<div class='text'>  >>> THE TIMING OF EVERYTHING WORKS WITH INTEGER NUMBER OF SAMPLES <<<</div>
+<div class='text'></div>
+<div class='text'>To produce 1 second at 48,000 Hz you need to produce 48,000 samples. To produce 1 second</div>
+<div class='text'>at 44,100 Hz you need to produce 44,100 Hz. Easy enough.</div>
+<div class='text'></div>
+<div class='text'>But producing the period corresponding to 440 Hz means to produce 0.002272727 sec. Gradrigo</div>
+<div class='text'>only works which integers. And so, at 48,000 Hz the period would be 109 samples while</div>
+<div class='text'>at 44,100 Hz the period will be 100 samples. However, none of those durations would corespond</div>
+<div class='text'>to 440 Hz exactly. This is one of the key defining characteristics of Gradrigo, to which</div>
+<div class='text'>the synthesizer owes for its late 1970s acoustic aesthetic.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   one_second = dur(~1) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo currently doesn't receive the BPM from DAW. By default it operats at 120 BPM.</div>
+<div class='text'>To set something else you can use global command "bpm". Let's work with 115.5 BPM for now:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   bpm(115.5)</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   one_eighth_note = dur(!0.5) { // !1 means 1/4 ==> !0.5 means 1/8 ==> !0.25 means 1/16</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** VOLUME LEVEL **</div>
+<div class='text'>------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Internally, Gradrigo represents the output as 32-bit floats, -1 .. 1 being the default</div>
+<div class='text'>amplitude range of the output from each box. In order to decrease (or increase) this range,</div>
+<div class='text'>use the vol() command.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   full = dur(~1) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   half = dur(~1) {</div>
+<div class='code'>     vol(0.5)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   silent = dur(~1) {</div>
+<div class='code'>     vol(0.0)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The vol() command affects everything in the box _after_ it:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   steps = {</div>
+<div class='code'>     vol(0.25)</div>
+<div class='code'>       dur(~0.25) { @loop sqr(#C4) }</div>
+<div class='code'>     vol(0.5) </div>
+<div class='code'>       dur(~0.25) { @loop sqr(#C4) }</div>
+<div class='code'>     vol(1.0) </div>
+<div class='code'>       dur(~0.25) { @loop sqr(#C4) }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** FADE-OUT AND FADE-IN **</div>
+<div class='text'>--------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo does not have envelope generators in the classical sense. It does have volume faders.</div>
+<div class='text'>Fade-out decreases smoothly over time with each sample produced by that box and stops when</div>
+<div class='text'>the volume reaches zero. The parameter of fadeout() is the number of samples it takes to go</div>
+<div class='text'>from 1.0 all the way to 0.0. Of course, you can use ~ ! @ # operators when specifying this.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   faded_out = dur(~1) { // One second</div>
+<div class='code'>     fadeout(~1)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Fade-in does the opposite. </div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   faded_in = dur(~1) {</div>
+<div class='code'>     vol(0.0) // In order to hear the fade-in, the volume must be less than 1.0</div>
+<div class='code'>     fadein(~1)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#C4)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>vol(), fadein() and fadeout() operate in the context of the sequence they were mentioned.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   faded_in_out = {</div>
+<div class='code'>     faded_in</div>
+<div class='code'>     full</div>
+<div class='code'>     faded_out</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** POLYPHONY **</div>
+<div class='text'>---------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>In one of the first chapters it was mentioned that the box can contain one or more sequences.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>A sequence inside another sequence has been fairly common in the examples so far. The</div>
+<div class='text'>following example first produces half a second of C4 and then another half a second of E4.</div>
+<div class='text'>(Please note that the dur() statement is a condition of the sequence it precedes.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   outer_and_inner = {</div>
+<div class='code'>     dur(~0.5) { @loop sqr(#C4) }</div>
+<div class='code'>     dur(~0.5) { @loop sqr(#E4) }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Two "outer" sequences written one after another will play simultaneously as a sample-wise</div>
+<div class='text'>sum of the outputs of the two sequences. The following produces half a second of concord C-E:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   two_outer = dur(~0.5)</div>
+<div class='code'>     { @loop sqr(#C4) }</div>
+<div class='code'>     { @loop sqr(#E4) } </div>
+<div class='code'>   </div>
+<div class='text'>Technically, the dur(~0.5) belongs to the first sequence, however the first sequence of the</div>
+<div class='text'>box determines the duration of the entire box. Should the other sequence(s) be longer than</div>
+<div class='text'>the first one (i.e. should they produce more samples than the first one), their output is</div>
+<div class='text'>cropped simultaneously with the end of the first sequence.</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** VARIABLES **</div>
+<div class='text'>---------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>There are two types of variables, global and voice-based. For now, variables may be only</div>
+<div class='text'>called by single letters. I will change this in the future, so that they're less awkward</div>
+<div class='text'>to use. The names are case-sensitive: %A, %B, %C are different variables than %a, %b, %c.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** GLOBAL VARIABLES **</div>
+<div class='text'>----------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The global variables are declared using command global(). Once declared, they're visible</div>
+<div class='text'>and shared by all the boxes:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   global(%N, 60) // Declare variable and set it to a value</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** EXPRESSIONS **</div>
+<div class='text'>-----------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>First, let's make a box that plays a note whose pitch will be controlled</div>
+<div class='text'>by this global variable:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   play_note = dur(~0.1) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     fadeout(~0.1)</div>
+<div class='code'>     sqr(#%N)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Inside a box you can set the value of the global variables using mathematical expressions.</div>
+<div class='text'>Each box then triggers the "play_note" box with an updated value of %N:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   note_C5 = {</div>
+<div class='code'>     %N = C5</div>
+<div class='code'>     play_note</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   note_up = {</div>
+<div class='code'>     %N = %N + 1</div>
+<div class='code'>     play_note</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   note_down = {</div>
+<div class='code'>     %N = %N - 1</div>
+<div class='code'>     play_note</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   note_random = {</div>
+<div class='code'>     %N = C4 + ? * 12     // ? represents a random number between 0 and 1.</div>
+<div class='code'>     play_note</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** SEQUENCE-BASED VARIABLES **</div>
+<div class='text'>------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>A sequence-based variable is any variable that is not global and is first mentioned in</div>
+<div class='text'>a sequence. It is then visible inside that sequence and any of its subsequences. In the</div>
+<div class='text'>following example, %f is visible throughout the box, whereas %g is visible only inside</div>
+<div class='text'>the inner sequence. The first time it's used outside that inner sequence, it's value</div>
+<div class='text'>will be 0 (default initial value).</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>There are two reserved variables used for MIDI communication. It is advisable not to use</div>
+<div class='text'>them for anything else.</div>
+<div class='text'>-- %n ... MIDI note number</div>
+<div class='text'>-- %v ... velocity of the note</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   example = {</div>
+<div class='code'>     %f = C4</div>
+<div class='code'>     {</div>
+<div class='code'>       %g = E4</div>
+<div class='code'>     }</div>
+<div class='code'>     dur(4800) { @loop sqr(#%f) }</div>
+<div class='code'>     dur(4800) { @loop sqr(#%g) }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** MORE EXAMPLES **</div>
+<div class='text'>-------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Let's get back to the example from the opening lesson: What happens here is the following:</div>
+<div class='text'>-- The entire box is 1 second long</div>
+<div class='text'>-- There's a loop inside in which:</div>
+<div class='text'>    * A noise5 oscillator generates an output sample with parameter %a</div>
+<div class='text'>    * The value of that parameter is increased by 0.01</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   kaboom = dur(~1) {</div>
+<div class='code'>     @loop</div>
+<div class='code'>     noise5(%a)</div>
+<div class='code'>     %a = %a + 0.01</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Here's another somewhat more complex example:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   pew5times = dur(~1) {</div>
+<div class='code'>     %a = 80</div>
+<div class='code'>     @loop</div>
+<div class='code'>     dur(~0.2) {</div>
+<div class='code'>       fadeout(~0.2)</div>
+<div class='code'>       %b = #%a</div>
+<div class='code'>       @loop</div>
+<div class='code'>       sqr(%b)</div>
+<div class='code'>       %b = %b + 0.01</div>
+<div class='code'>     }</div>
+<div class='code'>     %a = %a + 5</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** LIST OF OPERATIONS **</div>
+<div class='text'>------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Unary operations</div>
+<div class='text'></div>
+<div class='text'>   -X ... negative</div>
+<div class='text'>   ~X ... seconds to samples (mainly for timing)</div>
+<div class='text'>   !X ... beats to samples (mainly for timing)</div>
+<div class='text'>   @X ... period @ freq. to samples (mainly for synthesis)</div>
+<div class='text'>   #X ... MIDI note numbers to samples (mainly for synthesis)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Binary operations</div>
+<div class='text'></div>
+<div class='text'>   X + Y </div>
+<div class='text'>   X - Y </div>
+<div class='text'>   X * Y </div>
+<div class='text'>   X / Y  </div>
+<div class='text'>   X \ Y ... X modulo Y</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Function</div>
+<div class='text'></div>
+<div class='text'>  sin2pi(X) ... returns sin(2*PI*X). (Implemented as a lookup table.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** LIMITATIONS **</div>
+<div class='text'>-----------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'> * Currently, only float numbers can be used as values of the variables. I might add more</div>
+<div class='text'>   types in the future.</div>
+<div class='text'> * There are not proper cycles in Gradrigo just yet. I think that at some point not too</div>
+<div class='text'>   far from now I'll add proper while() and for() statements.</div>
+<div class='text'> * Also, I'll add if/else conditions.</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** PASSING PARAMETERS TO BOXES **</div>
+<div class='text'>---------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Boxes can receive parameters that could affect how the sound effects play. There are two</div>
+<div class='text'>boxes in the following example. "parametrized" receives two values, %a and %n, and the</div>
+<div class='text'>box "used_this_way" calls "parametrized" three times, with different combinations of</div>
+<div class='text'>parameters.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   parametrized:%a:%n = dur(~1) {</div>
+<div class='code'>     %a = 1 / %a</div>
+<div class='code'>     @loop</div>
+<div class='code'>     dur(~%a) {</div>
+<div class='code'>       fadeout(~%a)</div>
+<div class='code'>       @loop</div>
+<div class='code'>       sqr(#%n)</div>
+<div class='code'>     }</div>
+<div class='code'>     %n = %n + 1</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   used_this_way = {</div>
+<div class='code'>     parametrized:2:C3</div>
+<div class='code'>     parametrized:4:C4</div>
+<div class='code'>     parametrized:8:C5</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>>> Tip: When you compile this script, not only you'll see the list of the boxes in the</div>
+<div class='text'>>> right panel but each box will have its parameters exposed as edit boxes. You can enter</div>
+<div class='text'>>> those and then hit the play button to test various combinations of values with your</div>
+<div class='text'>>> box.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Typically, this can be used for playback of melodies, as in the following example.</div>
+<div class='text'>The box "note" plays a single note where the first parameter determines its duration</div>
+<div class='text'>in the count of 1/16 notes and the second parameter is the MIDI note number of that note.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   note:%d:%w = {</div>
+<div class='code'>     %d = !(%d * .25)</div>
+<div class='code'>     dur(%d) {</div>
+<div class='code'>       fadeout(%d)</div>
+<div class='code'>       @loop sqr(#%w)</div>
+<div class='code'>     }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>In order to save lots of typing, Gradrigo utilizes the following shorthand:</div>
+<div class='text'>A number (or the note name which is just a synonym of a numeric value) which is</div>
+<div class='text'>written immediately after the last parameter of a box is interpreted as the wish of</div>
+<div class='text'>the programmer to repeat the entire box with the same parameters as before, except</div>
+<div class='text'>for the last one:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   ode_to_joy = {</div>
+<div class='code'>     note: 2: E4 E4 F4 G4  G4 F4 E4 D4  C4 C4 D4 E4  E4 D4 D4</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='text'>And in the following example, the note is re-triggered for different durations</div>
+<div class='text'>of the notes too.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   ode_to_joy_2 = {</div>
+<div class='code'>     note: 2: E4 E4 F4 G4  G4 F4 E4 D4  C4 C4 D4 E4  3: E4 1: D4 4: D4</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='text'>It might be more legible to write this in multiple lines of code. The following</div>
+<div class='text'>is the Gradrigo Jingle:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   gr_jingle = {</div>
+<div class='code'>     note:</div>
+<div class='code'>       6: A5 </div>
+<div class='code'>       6: D5 </div>
+<div class='code'>       2: 0</div>
+<div class='code'>       1: A5 C6 </div>
+<div class='code'>       2: B5 A5 G5 </div>
+<div class='code'>       4: D5</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>You can interleave the boxes with additional commands and/or statements, such as</div>
+<div class='text'>the volume information:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   gr_jingle_dyn = {</div>
+<div class='code'>     note:</div>
+<div class='code'>       6: A5 </div>
+<div class='code'>     vol(.75) </div>
+<div class='code'>       6: D5 </div>
+<div class='code'>       2: 0</div>
+<div class='code'>       1: A5 C6 </div>
+<div class='code'>     vol(.9) </div>
+<div class='code'>       2: B5 A5 G5 </div>
+<div class='code'>     vol(.7)</div>
+<div class='code'>       4: D5</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** MIDI INPUT AND USE IN A DAW **</div>
+<div class='text'>---------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>If you're using this as a standalone Windows desktop application, you might want to plug in</div>
+<div class='text'>your MIDI keyboard now. If you're using this as a VST3 plugin in your DAW, make sure to enable</div>
+<div class='text'>routing of the MIDI events to this plugin.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>>> Tip for standalone app users: Go to menu "Options", choose "Audio and MIDI Settings ..."</div>
+<div class='text'>>> and then enable your MIDI input. If you don't see your device listed, try restarting this</div>
+<div class='text'>>> app.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo has a straightforward way of connecting MIDI to boxes. The following code will turn</div>
+<div class='text'>Gradrigo into a polyphonic synthesizer where half of the keyboard plays a square and the other</div>
+<div class='text'>plays sawtooth.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   square = {</div>
+<div class='code'>     vol(%v)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#%n)</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   sawtooth = {</div>
+<div class='code'>     vol(%v)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     saw(#%n)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>midikey(0, 59, square)</div>
+<div class='code'>midikey(60, 127, sawtooth)</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Note how neither "square" or "sawtooth" box have any dur() statement in it. They could have</div>
+<div class='text'>but they don't have to. An instance of the box starts when a key is pressed and is stopped</div>
+<div class='text'>when the key is released. What happens inside is that the box simply stops iterating. The</div>
+<div class='text'>moment the key is released, the sequence runs its course and stops.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** @release LABEL **</div>
+<div class='text'>--------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>If you wish to add a bit of sound after the key is released, you might need to use the label</div>
+<div class='text'>@release. While the key is held, the sequence iterates over the loop that starts at the @loop</div>
+<div class='text'>label and stops before the @release label. Once the key is released, the execution continues</div>
+<div class='text'>with what follows the @release label, in this case a short fadeout.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>The following example is a square wave synth with 0.1s attack and 0.1s release:</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   attack_release = {</div>
+<div class='code'>     dur(~0.1) {</div>
+<div class='code'>       vol(0.0)</div>
+<div class='code'>       @loop</div>
+<div class='code'>       fadein(~0.1)</div>
+<div class='code'>       sqr(#%n)</div>
+<div class='code'>     }</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#%n)</div>
+<div class='code'>     @release dur(~0.1) {</div>
+<div class='code'>       fadeout(~0.1)</div>
+<div class='code'>       @loop</div>
+<div class='code'>       sqr(#%n)</div>
+<div class='code'>     }</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>** LIMITING NUMBER OF VOICES **</div>
+<div class='text'>-------------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>As the scripts get more complicated, playing too many voices at the same time, Gradrigo</div>
+<div class='text'>may quickly run into performance issues. "maxinst" box condition will ensure that for</div>
+<div class='text'>the given box, only the given number instances or less may play at the same time.</div>
+<div class='text'>Voices that get over this limit will be released. (See also the DX7-esque example patch.)</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   voice_limited maxinst(4) = {</div>
+<div class='code'>     vol(%v)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(#%n)</div>
+<div class='code'>   }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Uncomment the following line and recompile the example to hear it:</div>
+<div class='text'>midikey(0, 127, attack_release)</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** LIVE CODING **</div>
+<div class='text'>-----------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo can recompile the script (Ctrl+R) while the music is playing without causing</div>
+<div class='text'>to glitch. The idea is to run an endless loop and while this loop is running, you'd change</div>
+<div class='text'>the contents of the boxes the loop and its boxes are using. The loop can be a multi-voice</div>
+<div class='text'>box and then you can simply comment out the voices you don't wish to play.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| Tip: Use "Options > Enter Note Namse using MIDI" function to have your MIDI keyboard enter</div>
+<div class='text'>|| the names of the notes you press. It's way faster than typing the note names on the PC</div>
+<div class='text'>|| keyboard. A single space character is entered after each note.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>|| And now, run "music" box and then read the comments in this script to see which part</div>
+<div class='text'>|| does what.</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   bpm(110)     // Not too slow, not too fast</div>
+<div class='code'>   global(%T)   // This global variable will be used to specify the transposition offset</div>
+<div class='code'>   </div>
+<div class='code'>   // Percussion sounds</div>
+<div class='code'>   // Their boxes have single-letter names so that it's easier to type legible rhythmic</div>
+<div class='code'>   // patterns later on</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   // Bass drum</div>
+<div class='code'>   b = dur(!.25) {</div>
+<div class='code'>     own</div>
+<div class='code'>     %a = 260</div>
+<div class='code'>     fadeout(!.2)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     sqr(%a)</div>
+<div class='code'>     %a = %a + 0.1</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Snare drum</div>
+<div class='code'>   s = dur(!.25) {</div>
+<div class='code'>     own</div>
+<div class='code'>     %a = 25</div>
+<div class='code'>     fadeout(!.25)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     noise5(%a) `?`</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Hihat</div>
+<div class='code'>   h = dur(!.25) {</div>
+<div class='code'>     fadeout(!.0625)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     `?`</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Open hihat</div>
+<div class='code'>   o = dur(!.25) {</div>
+<div class='code'>     vol(0.5)</div>
+<div class='code'>     fadeout(!.5)</div>
+<div class='code'>     @loop</div>
+<div class='code'>     `?`</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Silence (Using . will make it easy to read the drum patter later on)</div>
+<div class='code'>   . = dur(!.25) {</div>
+<div class='code'>     @loop `5`</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Transposed note (used for tranposed accompaniment)</div>
+<div class='code'>   // %d = duration 1 = whole note, 2 = half note, 4 = quarter note, 8 = 1/8th etc.</div>
+<div class='code'>   // %x = MIDI number</div>
+<div class='code'>   n:%d:%x = {</div>
+<div class='code'>     own</div>
+<div class='code'>     %d = !(4/%d)</div>
+<div class='code'>     %x = #(%x + %T)</div>
+<div class='code'>     dur(%d) {</div>
+<div class='code'>       @loop</div>
+<div class='code'>       fadeout(!0.25)</div>
+<div class='code'>       sqr(%x)</div>
+<div class='code'>     }</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Non-transposed note (used for the main melody)</div>
+<div class='code'>   m:%d:%x = {</div>
+<div class='code'>     own</div>
+<div class='code'>     %d = !(4/%d)</div>
+<div class='code'>     %x = #%x</div>
+<div class='code'>     dur(%d) {</div>
+<div class='code'>       @loop</div>
+<div class='code'>       fadeout(!0.25)</div>
+<div class='code'>       sqr(%x)</div>
+<div class='code'>     }</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   // Drum patterns</div>
+<div class='code'>   bb = { `b... b... b... b...` }</div>
+<div class='code'>   hh = { `.hhh .hhh .hhh .hhh` }</div>
+<div class='code'>   oh = { `.hoh .hoh .hoh .hoh` }</div>
+<div class='code'>   sd = { `.... s... .... s..s` }</div>
+<div class='code'>   </div>
+<div class='code'>   // Bass + accompaniment</div>
+<div class='code'>   bass =  { n:8:  D2 D2 D2 D3 D2 D2 D3 D2 }</div>
+<div class='code'>   chr1 =  { vol(.25) n:16: D3 D3 D3 D3 D3 D3 D4 D4  D3 D3 D3 D3 D3 D3 D4 D4 }</div>
+<div class='code'>   chr2 =  { vol(.25) n:16: A3 A3 A3 A3 A3 A3 A4 A4  A3 A3 A3 A3 A3 A3 A4 A4 }</div>
+<div class='code'>   </div>
+<div class='code'>   // Main melody</div>
+<div class='code'>   melody =  { m:8: D4 E4 F4 A4 D5 A4 C5 D5 C5 D5 A4 C5 F4 A4 C5 A4</div>
+<div class='code'>                    B4 C5 B4 A4 B4 G4 A4 G4 A4 G4 E4 G4 A4 E4 G4 E4 }</div>
+<div class='code'>     </div>
+<div class='code'>   // (Un-)comment lines below to hear different parts and hear the change while</div>
+<div class='code'>   // the music is playing (Make sure to press Ctrl-R to recompile the script.)</div>
+<div class='code'>   texture =</div>
+<div class='code'>   { bb }</div>
+<div class='code'>   // { hh }</div>
+<div class='code'>   { oh }</div>
+<div class='code'>   { sd }</div>
+<div class='code'>   { bass }</div>
+<div class='code'>   { chr1 }</div>
+<div class='code'>   { chr2 }</div>
+<div class='code'>   </div>
+<div class='code'>   // "patterns" box has two layers</div>
+<div class='code'>   // -- It plays 4 repetitions of the texture, transposed by an interval from the base tone</div>
+<div class='code'>   //    (The global variable %T)</div>
+<div class='code'>   // -- It also plays the "melody" which is 4 bars long</div>
+<div class='code'>   //    Remove the // comment to hear it</div>
+<div class='code'>   patterns = </div>
+<div class='code'>   {</div>
+<div class='code'>     %T = 0 texture</div>
+<div class='code'>     %T = 3 texture</div>
+<div class='code'>     %T = 5 texture</div>
+<div class='code'>     %T = 7 texture</div>
+<div class='code'>   }</div>
+<div class='code'>   // { melody }</div>
+<div class='code'>	 </div>
+<div class='code'>   // This is the main music loop.</div>
+<div class='code'>   // Run this box to hear endless stream of music.</div>
+<div class='code'>   music = { @loop patterns }</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** GRADRIGO IN UNITY ** </div>
+<div class='text'>-----------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Gradrigo can be used as a mini-audio middleware in Unity. You may attach different instances</div>
+<div class='text'>of Gradrigo to different GameObjects in your game. You may have a single instance of Gradrigo</div>
+<div class='text'>for an entire game or each GameObject can have its own Gradrigo with its own collection</div>
+<div class='text'>of boxes.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>In the code of the game you may then instantiate the boxes (even with parameters) and they'll</div>
+<div class='text'>handle your sound effects.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>Please see dedicated vidoes on my YouTube channel about the subject:</div>
+<div class='text'>https://www.youtube.com/channel/UCZt3mPlhyr39hTEQjh_4pRQ</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** EXPORTING .wav FILES **</div>
+<div class='text'>--------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>It is possible to use gradrigo on the command line. One of the command line options is the box</div>
+<div class='text'>which is supposed to be played and another command is the target .wav file where the output</div>
+<div class='text'>will be stored.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>This feature is currently not implemented in this version of Gradrigo but will be very soon.</div>
+<div class='empty'>&nbsp;</div>
+</div><div class='chapter'><div class='text'>** YOU'RE GOOD TO gradriGO **</div>
+<div class='text'>-----------------------------</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>This concludes the built-in tutorial. I hope you'll enjoy this mini-engine. Please use</div>
+<div class='text'>it and when you do and when you publish stuff, please mention Gradrigo in the credits or</div>
+<div class='text'>description ("Made with Gradrigo")</div>
+<div class='empty'>&nbsp;</div>
+<div class='code'>   note:%d:%m = {</div>
+<div class='code'>     %d = !(4/%d)</div>
+<div class='code'>     dur(%d) {</div>
+<div class='code'>       fadeout(%d)</div>
+<div class='code'>       @loop</div>
+<div class='code'>       sqr(#%m)</div>
+<div class='code'>     }</div>
+<div class='code'>   }</div>
+<div class='code'>   </div>
+<div class='code'>   fanfare* =</div>
+<div class='code'>     {           note: 8: C4 C4 C4 16: E4 G4 8: C5 16: C5 C5 4: C5 }</div>
+<div class='code'>     {  vol(0.5) note: 8: C3 E3 G3 16: C4 D4 8: E4     E4    4: E4 }</div>
+<div class='code'>     { vol(0.33) note: 4: C2    C2           8: C2     G2    4: C3 }</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>If you plan having splash screens or visible logos somewhere in credits, etc., please</div>
+<div class='text'>throw in Gradrigo logo as well. It is available for download here:</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>https://gradrigo.com</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>I'll be posting additional pieces of information on the project's landing page as well as on</div>
+<div class='text'>my social media.</div>
+<div class='empty'>&nbsp;</div>
+<div class='text'>https://patreon.com/adam_sporka</div>
+<div class='text'>https://twitter.com/adam_sporka</div>
+<div class='text'>https://soundcloud.com/adam_sporka</div>
+<div class='empty'>&nbsp;</div>
+</div>
+</body></html>

@@ -1,7 +1,8 @@
-GRADRIGO FOR UNITY
+GRADRIGO FOR UNITY 0.0.5
 by Adam Sporka
 
-This is an experimental build and a work in progress.
+2021-07-12
+
 For Windows only.
 
 Gradrigo is provided by the copyright holders and contributors "as is"
@@ -17,10 +18,22 @@ or tort (including negligence or otherwise) arising in any way out
 of the use of this software, even if advised of the possibility of such
 damage. 
 
-Use for non-commercial purposes is possible for free. Use for
-commercial purposes requires a commercial license.
+Use for any purpose (incl. commercial) of any of the files in this
+package is possible for free.
 
-To obtain the latest version of Gradrigo and for licensing options,
-please visit https://adam.sporka.eu (https://adamsporka.com)
+Consultations for non-commercial projects will be provided for free
+when time permits. Consultations, sound design, implementation, and/or
+modifications of the engine for commercial projects will be gladly
+provided for a fee.
 
-2021-04-02
+Thanks much for using Gradrigo!
+
+Adam Sporka
+Heckova 8
+14200 Praha 4
+
+https://adam.sporka.eu
+https://twitter.com/adam_sporka
+
+Phone: +420-603-287-605
+e-mail: adam.j.sporka@gmail.com
