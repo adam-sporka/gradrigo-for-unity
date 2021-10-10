@@ -115,13 +115,13 @@ public class GameController : MonoBehaviour
 
 		if (screen == Screens.GAME_OVER)
 		{
-			m_Message.text = "Game Over – Press SPACE to Play Again";
+			m_Message.text = "Game Over ï¿½ Press SPACE to Play Again";
 			m_Gradrigo.StartVoice("music_game_over");
 		}
 
 		if (screen == Screens.VICTORY)
 		{
-			m_Message.text = "Congrats! – Press SPACE to Play Again";
+			m_Message.text = "Congrats! ï¿½ Press SPACE to Play Again";
 			m_Gradrigo.StartVoice("music_victory");
 		}
 	}
@@ -171,7 +171,7 @@ public class GameController : MonoBehaviour
 		else if (m_GameScreen == Screens.GAME)
 		{
 			m_fStopwatch += Time.deltaTime;
-			m_Score.text = "Lives left: " + m_nLives.ToString() + " – Time: " + m_fStopwatch.ToString("000.0");
+			m_Score.text = "Lives left: " + m_nLives.ToString() + " ï¿½ Time: " + m_fStopwatch.ToString("000.0");
 
 			if (m_MessageCountdown >= 0)
 			{

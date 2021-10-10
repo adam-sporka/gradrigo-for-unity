@@ -73,6 +73,12 @@ public class Gradrigo : MonoBehaviour
 	[return: MarshalAs(UnmanagedType.LPStr)]
 	public static extern string _ReportBoxesAsJson(int id);
 
+	[DllImport("gradrigo.dll", EntryPoint = "EnableCompletedVoicePolling")]
+	public static extern void _EnableCompletedVoicePolling(bool enable, int id);
+
+	[DllImport("gradrigo.dll", EntryPoint = "PollCompletedVoice")]
+	public static extern int _PollCompletedVoice(int id);
+
 	////////////////////////////////////////////////////////////////
 	/// <summary>
 	/// Have the Gradrigo engine parse the given script. You may make
@@ -176,6 +182,34 @@ public class Gradrigo : MonoBehaviour
 				i++;
 			}
 		}
+
+		int completed = _PollCompletedVoice(m_InstanceID);
+		while (completed != 0)
+		{
+			m_Completed.Add(completed);
+			completed = _PollCompletedVoice(m_InstanceID);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////
+	public bool IsVoiceCompleted(int VoiceId)
+	{
+		foreach (int id in m_Completed)
+		{
+			if (id == VoiceId)
+			{
+				m_Completed.Remove(id);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////
+	public void ResetVoicePolling()
+	{
+		m_Completed.Clear();
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -186,6 +220,7 @@ public class Gradrigo : MonoBehaviour
 		AudioSettings.Reset(audio_configuration);
 
 		m_InstanceID = NewInstance(audio_configuration.sampleRate);
+		_EnableCompletedVoicePolling(true, m_InstanceID);
 
 		var dummy = AudioClip.Create("dummy", 1, 1, AudioSettings.outputSampleRate, false);
 		dummy.SetData(new float[] { 1 }, 0);
@@ -212,6 +247,7 @@ public class Gradrigo : MonoBehaviour
 	}
 
 	////////////////////////////////////////////////////////////////
+	private ArrayList m_Completed = new ArrayList();
 	public int m_InstanceID = 0;
 	string m_sTextToParse = "";
 	bool m_bRunning = false;
